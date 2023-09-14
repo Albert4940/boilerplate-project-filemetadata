@@ -1,18 +1,17 @@
-var express = require('express');
-var cors = require('cors');
-require('dotenv').config()
-
-var app = express();
-
-app.use(cors());
-app.use('/public', express.static(process.cwd() + '/public'));
-
-app.get('/', function (req, res) {
-  res.sendFile(process.cwd() + '/views/index.html');
-});
+const app = require('./myApp');
+const mongoose = require('mongoose');
+const MONGO_URI = process.env.MONGO_URI;
 
 
-
+mongoose.connect(MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }).then(() => {
+    console.log('Database connection successful');
+  })
+    .catch((err) => {
+      console.error('Database connection error');
+    });
 
 const port = process.env.PORT || 3000;
 app.listen(port, function () {
